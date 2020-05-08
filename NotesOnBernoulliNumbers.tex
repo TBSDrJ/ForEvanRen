@@ -46,7 +46,7 @@ We know that $2^5 = 32 \equiv -1 \pmod{11}$.  So, $2^{10} = \left(2^5\right)^2 \
 
 Or, if you know Fermat's Little Theorem, we can apply that, which says (for prime modulus), that $a^{p-1} \equiv 1 \pmod{p}$, for all $a, 1 \leq a \leq p-1$.  In general, it says that $a^{\phi(n)} \equiv 1 \pmod{n}$ for all $a$ coprime to $n$ (where $\phi$ is the Euler $\phi$-function, not sure if you know this or not).  Notice it does \emph{not} say that this is the smallest power of $a$ that is congruent to 1, for any particular $a$.  It is, however, not hard to show that this is the smallest power that works for all coprime $a$.
 
-Finding solutions to $a^n \equiv b \pmod{p}$ (so, in effect, finding $n^{\text{th}}$ roots $\pmod{p}$) is an interesting and deep one with few obvious answers (the study of \emph{primitive roots}).
+Finding solutions to $a^n \equiv b \pmod{p}$ (so, in effect, finding $n^{\text{th}}$ roots $\pmod{p}$) is an interesting and deep question with few obvious answers (the study of \emph{primitive roots}).
 
 Notice that, in Example 1, we never had to use any number with more than two digits.  If you did the obvious thing in your computer, and asked it to compute \texttt{2**2020 \% 11}, it can do that, but it's a lot of computational work.  It first has to compute all of $2^{2020}$, and then reduce that mod 11.  To see what that looks like: (commas omitted), $2^{2020} =$ 
 
@@ -58,9 +58,31 @@ and 2020 is a really small power for what we're looking at.
 
 Another (better) way to look at the computational cost is that the number of digits in $2^{2020}$ is equal to $\log_{10}(2^{2020}) = 2020 \cdot \log_{10}(2) \sim 2020 \cdot (0.3013) \sim 608.6$, so $2^{2020}$ should have 609 digits as a base 10 number (which you can verify above if you're bored).
 
-In general, if you are computing $\pmod{n}$, your computation should never need to use a number bigger than $\pmod{n^2}$.  This is a \emph{huge} computational advantage, and, using $\log_2$, you can figure out how many bits that takes up in your computer.  Keeping it under 64 bits is a \emph{huge} deal because it allows you to do the computation all at once in the processor (most modern processors are 64-bit processors).
+In general, if you are computing powers of integers $\pmod{n}$, your computation should never need to use a number bigger than $\pmod{n^2}$.  This is a \emph{huge} computational advantage, and, using $\log_2$, you can figure out how many bits that takes up in your computer.  Keeping it under 64 bits is a \emph{huge} deal because it allows you to do the computation all at once in the processor (most modern processors are 64-bit processors).
 
 {\sc Example 2}: Compute $2^{2020} \pmod{37}$.  By Fermat, we know that $2^{36} \equiv 1 \pmod{37}$.  So, $2^m \equiv 2^n \pmod{37}$ if $m \equiv n \pmod{36}$.  So, I'll reduce $2020 \pmod {36}$; to keep that in my head, I'll use easy multiples of 36: $2020-1800 = 220$; $220-180=40$, $40-36=4$, so $2020 \equiv 4 \pmod{36}$.  This tells us that $2^{2020} \equiv 2^4 \pmod{37}$.  So $2^{2020} \equiv 16 \pmod{37}$.
 
+{\sc Exercises}:
+\begin{enumerate}
+	\item
+Compute (by hand):
+	\begin{enumerate}
+		\item $2^{2020} \pmod{17}$
+		\item $5^{2020} \pmod{17}$
+		\item $6^{31415} \pmod{23}$
+	\end{enumerate}
+	\item
+Find an example of $a,n,p$ where $a^n \equiv 1 \pmod{p}$, $a > 1$ and $n < p-1$.  This is a counterexample to show that Fermat's Little Theorem does not give the minimal exponent for all $a$.  Obviously, if $a=1$ this is trivial. (Hint: If you are looking for cases where $a^n \equiv 1 \pmod{p}$, you should be looking at values of $n$ that divide $p-1$. Why is that?)
+	\item
+Show that, for $a$ in $1 \leq a \leq p-1$ and $p$ prime, $a^n \not \equiv 0 \pmod{p}$ for all positive integers $n$.
+	\item
+Find an example where $1 \leq a \leq m-1$, $m$ composite, and $a^n \equiv 0 \pmod{m}$ for some $a, m, n$.
+	\item
+On paper, write down a process that, for any $a, 1 < a \leq p-1$, a positive integer $k$, and prime $p$, will allow you to calculate $a^k \pmod{p}$.  Use Fermat's Little Theorem.
+	\item
+Write a function in Python that returns the value of $a^k \pmod{p}$ for any $a,k,p$ where $1 < a \leq p-1$, $n$ a positive integer, and $p$ prime.  Use the method that we developed above. You do not need to validate the inputs against these requirements, but you can assume that they are true in the design of your algorithm.
+	\item
+Explain how $\log_2(n)$ can be used to tell us how many bits an unsigned integer will occupy in your computer.  What happens if $n$ is allowed to be signed?  What if $n$ has a decimal part?  (If you don't actually know the answers to these, that is ok, think about it and we can talk about next time we meet.  Don't feel like you need to go research this.)
+\end{enumerate}
 
 \end{document}
